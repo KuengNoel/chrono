@@ -10,7 +10,7 @@
 
 //! Temporal quantification
 
-use core::ops::{Add, Div, Mul, Neg, Sub};
+use core::ops::{Add, Div, Mul, Neg, Sub, AddAssign, SubAssign};
 #[cfg(feature = "std")]
 use core::time::Duration as StdDuration;
 use core::{fmt, i64};
@@ -331,7 +331,6 @@ impl Neg for TimeDelta {
         }
     }
 }
-
 impl Add for TimeDelta {
     type Output = TimeDelta;
 
@@ -346,6 +345,18 @@ impl Add for TimeDelta {
     }
 }
 
+impl AddAssign for TimeDelta {
+    fn add_assign(&mut self, rhs: Self) -> () {
+        let mut secs = self.secs + rhs.secs;
+        let mut nanos = self.nanos + rhs.nanos;
+        if nanos >= NANOS_PER_SEC {
+            nanos -= NANOS_PER_SEC;
+            secs += 1;
+        }
+        *self = TimeDelta { secs, nanos };
+    }
+}
+
 impl Sub for TimeDelta {
     type Output = TimeDelta;
 
@@ -357,6 +368,18 @@ impl Sub for TimeDelta {
             secs -= 1;
         }
         TimeDelta { secs, nanos }
+    }
+}
+
+impl SubAssign for TimeDelta {
+    fn sub_assign(&mut self, rhs: Self) -> () {
+        let mut secs = self.secs - rhs.secs;
+        let mut nanos = self.nanos - rhs.nanos;
+        if nanos < 0 {
+            nanos += NANOS_PER_SEC;
+            secs -= 1;
+        }
+        *self = TimeDelta { secs, nanos };
     }
 }
 
