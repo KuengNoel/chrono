@@ -1841,7 +1841,7 @@ impl Add<Months> for NaiveDate {
 
 impl AddAssign<Months> for NaiveDate {
     fn add_assign(&mut self, months: Months) -> () {
-        self.checked_add_months(months).unwrap();
+        *self = self.add(months);
     }
 }
 
@@ -1872,7 +1872,7 @@ impl Sub<Months> for NaiveDate {
 
 impl SubAssign<Months> for NaiveDate {
     fn sub_assign(&mut self, months: Months) -> () {
-        self.checked_sub_months(months).unwrap();
+        *self = self.sub(months);
     }
 }
 
@@ -1886,7 +1886,7 @@ impl Add<Days> for NaiveDate {
 
 impl AddAssign<Days> for NaiveDate {
     fn add_assign(&mut self, days: Days) -> () {
-        self.checked_add_days(days).unwrap();
+        *self = self.add(days);
     }
 }
 
@@ -1900,7 +1900,7 @@ impl Sub<Days> for NaiveDate {
 
 impl SubAssign<Days> for NaiveDate {
     fn sub_assign(&mut self, days: Days) -> () {
-        self.checked_sub_days(days).unwrap();
+        *self = self.sub(days);
     }
 }
 
