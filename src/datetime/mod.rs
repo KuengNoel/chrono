@@ -1232,6 +1232,12 @@ impl<Tz: TimeZone> Add<Months> for DateTime<Tz> {
     }
 }
 
+impl<Tz: TimeZone> AddAssign<Months> for DateTime<Tz> {
+    fn add_assign(&mut self, rhs: Months) -> () {
+        *self = self.clone().add(rhs);
+    }
+}
+
 impl<Tz: TimeZone> Sub<TimeDelta> for DateTime<Tz> {
     type Output = DateTime<Tz>;
 
@@ -1256,6 +1262,12 @@ impl<Tz: TimeZone> Sub<Months> for DateTime<Tz> {
 
     fn sub(self, rhs: Months) -> Self::Output {
         self.checked_sub_months(rhs).unwrap()
+    }
+}
+
+impl<Tz: TimeZone> SubAssign<Months> for DateTime<Tz> {
+    fn sub_assign(&mut self, rhs: Months) {
+        *self = self.clone().sub(rhs);
     }
 }
 
@@ -1285,11 +1297,23 @@ impl<Tz: TimeZone> Add<Days> for DateTime<Tz> {
     }
 }
 
+impl<Tz: TimeZone> AddAssign<Days> for DateTime<Tz> {
+    fn add_assign(&mut self, rhs: Days) {
+        *self = self.clone().add(rhs);
+    }
+}
+
 impl<Tz: TimeZone> Sub<Days> for DateTime<Tz> {
     type Output = DateTime<Tz>;
 
     fn sub(self, days: Days) -> Self::Output {
         self.checked_sub_days(days).unwrap()
+    }
+}
+
+impl<Tz: TimeZone> SubAssign<Days> for DateTime<Tz> {
+    fn sub_assign(&mut self, rhs: Days) {
+        *self = self.clone().sub(rhs);
     }
 }
 
