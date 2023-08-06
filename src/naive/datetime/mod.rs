@@ -1563,6 +1563,12 @@ impl Add<Months> for NaiveDateTime {
     }
 }
 
+impl AddAssign<Months> for NaiveDateTime {
+    fn add_assign(&mut self, rhs: Months) -> () {
+        self.checked_add_months(rhs).unwrap();
+    }
+}
+
 /// A subtraction of `TimeDelta` from `NaiveDateTime` yields another `NaiveDateTime`.
 /// It is the same as the addition with a negated `TimeDelta`.
 ///
@@ -1660,6 +1666,12 @@ impl Sub<Months> for NaiveDateTime {
     }
 }
 
+impl SubAssign<Months> for NaiveDateTime {
+    fn sub_assign(&mut self, rhs: Months) -> () {
+        self.checked_sub_months(rhs).unwrap();
+    }
+}
+
 /// Subtracts another `NaiveDateTime` from the current date and time.
 /// This does not overflow or underflow at all.
 ///
@@ -1716,11 +1728,23 @@ impl Add<Days> for NaiveDateTime {
     }
 }
 
+impl AddAssign<Days> for NaiveDateTime {
+    fn add_assign(&mut self, days: Days) -> () {
+        self.checked_add_days(days).unwrap();
+    }
+}
+
 impl Sub<Days> for NaiveDateTime {
     type Output = NaiveDateTime;
 
     fn sub(self, days: Days) -> Self::Output {
         self.checked_sub_days(days).unwrap()
+    }
+}
+
+impl SubAssign<Days> for NaiveDateTime {
+    fn sub_assign(&mut self, days: Days) -> () {
+        self.checked_sub_days(days).unwrap();
     }
 }
 
